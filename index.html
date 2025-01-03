@@ -127,9 +127,7 @@
             <li>Answer is case-sensitive! Make sure to match the capitalization exactly.</li>
             <li>If you answer incorrectly or run out of time, the game ends.</li>
             <li>Answer all questions correctly to win!</li>
-            
         </ul>
-        <li  style="font-size: small;" >🐼🍍</li>
     </div>
     <button class="button" id="start-btn">Start Game</button>
 </div>
@@ -180,6 +178,7 @@
     let remainingQuestions = questions.length;
     let timer;
     let timeLeft = 15;
+    let correctAnswer = '';
 
     document.getElementById('start-btn').addEventListener('click', startGame);
     document.getElementById('submit-btn').addEventListener('click', checkAnswer);
@@ -199,6 +198,7 @@
     function loadQuestion() {
         if (currentQuestionIndex < shuffledQuestions.length) {
             const question = shuffledQuestions[currentQuestionIndex];
+            correctAnswer = question.scientific;  // Store the correct answer
             document.getElementById('question-container').textContent = `What is the scientific name of ${question.crop}?`;
             document.getElementById('remaining').textContent = `${remainingQuestions} questions remaining.`;
             document.getElementById('answer').value = '';
@@ -227,11 +227,10 @@
 
     function checkAnswer() {
         const userAnswer = document.getElementById('answer').value.trim();
-        const correctAnswer = shuffledQuestions[currentQuestionIndex].scientific;
         if (userAnswer === correctAnswer) {
             nextQuestion();
         } else {
-            gameOver(correctAnswer);
+            gameOver();
         }
     }
 
@@ -242,7 +241,7 @@
         startTimer();
     }
 
-    function gameOver(correctAnswer) {
+    function gameOver() {
         clearInterval(timer);
         document.getElementById('game-page').classList.add('hidden');
         document.getElementById('end-page').classList.remove('hidden');
